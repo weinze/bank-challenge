@@ -1,0 +1,233 @@
+{
+  "info": {
+    "name": "API Validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "name": "Get Clients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/client/api/clients",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["client", "api", "clients"]
+            }
+          }
+        },
+        {
+          "name": "Create Client",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"identification\": 123456789,\n  \"name\": \"John Doe\",\n  \"gender\": \"M\",\n  \"age\": 30,\n  \"address\": \"123 Main St\",\n  \"phone\": 1234567890,\n  \"clientId\": 1,\n  \"password\": \"password123\",\n  \"enabled\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost/client/api/clients",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["client", "api", "clients"]
+            }
+          }
+        },
+        {
+          "name": "Update Client",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"age\": 28\n}"
+            },
+            "url": {
+              "raw": "http://localhost/client/api/clients/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["client", "api", "clients", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Client",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/client/api/clients/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["client", "api", "clients", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bank Accounts",
+      "item": [
+        {
+          "name": "Get Bank Accounts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/account/api/bank-accounts",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "bank-accounts"]
+            }
+          }
+        },
+        {
+          "name": "Create Bank Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"number\": 123456789,\n  \"type\": \"CA\",\n  \"initialBalance\": 1000.00,\n  \"currentBalance\": 1000.00,\n  \"enabled\": true,\n  \"client\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost/account/api/bank-accounts",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "bank-accounts"]
+            }
+          }
+        },
+        {
+          "name": "Update Bank Account",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentBalance\": 1200.00\n}"
+            },
+            "url": {
+              "raw": "http://localhost/account/api/bank-accounts/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "bank-accounts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Bank Account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/account/api/bank-accounts/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "bank-accounts", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Get Transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/account/api/transactions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "transactions"]
+            }
+          }
+        },
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"date\": \"2023-07-22T10:00:00Z\",\n  \"amount\": 100.00,\n  \"balance\": 1100.00,\n  \"number\": 123456789\n}"
+            },
+            "url": {
+              "raw": "http://localhost/account/api/transactions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "transactions"]
+            }
+          }
+        },
+        {
+          "name": "Update Transaction",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 150.00,\n  \"balance\": 1150.00\n}"
+            },
+            "url": {
+              "raw": "http://localhost/account/api/transactions/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "transactions", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Transaction",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/account/api/transactions/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["account", "api", "transactions", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
