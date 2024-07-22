@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -91,5 +92,14 @@ public class TransactionServiceImpl implements TransactionService {
     public void delete(Long id) {
         log.debug("Request to delete Transaction : {}", id);
         transactionRepository.deleteById(id);
+    }
+
+    @Override
+    public List<TransactionDTO> filterByClientAndDate(Long client, Instant startDate, Instant endDate) {
+        log.debug("Request to get all Transactions by client : {}", client);
+        return transactionRepository.findAllByAccountClientAndDateBetween(client, startDate, endDate)
+                .stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

@@ -8,11 +8,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -151,5 +153,17 @@ public class TransactionResource {
         log.debug("REST request to delete Transaction : {}", id);
         return Mono.fromRunnable(() -> transactionService.delete(id))
                 .then(Mono.just(ResponseEntity.noContent().build()));
+    }
+
+    @GetMapping("/report")
+    public Flux<TransactionDTO> getTransactionReport(
+            @RequestParam Long client,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant endDate
+    ) {
+        log.debug("REST request to get all Transactions");
+        return Mono.fromCallable(() ->
+                transactionService.filterByClientAndDate(client, startDate, endDate))
+                .flatMapMany(Flux::fromIterable);
     }
 }

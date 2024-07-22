@@ -2,6 +2,7 @@ package com.weinze.bank.account.service;
 
 import com.weinze.bank.account.service.dto.TransactionDTO;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,4 +56,6 @@ public interface TransactionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<TransactionDTO> filterByClientAndDate(Long client, Instant startDate, Instant endDate);
 }

@@ -83,6 +83,16 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccountRepository.deleteById(id);
     }
 
+    @Override
+    public List<BankAccountDTO> findAllByClient(Long client) {
+        log.debug("Request to get all BankAccounts by client : {}", client);
+        return bankAccountRepository.findAllByClient(client)
+                .stream()
+                .map(bankAccountMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public BankAccount updateBalance(Long accountNumber, BigDecimal amount) throws InsufficientBalanceException {
         return bankAccountRepository.findByNumber(accountNumber).map(bankAccount -> {
 

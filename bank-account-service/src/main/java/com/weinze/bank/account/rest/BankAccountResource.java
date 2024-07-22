@@ -60,17 +60,6 @@ public class BankAccountResource {
                 });
     }
 
-    private <T> Mono<ResponseEntity<T>> wrapClientValidation(Long clientId, Mono<ResponseEntity<T>> response) {
-        return bankClientService.getClientById(clientId)
-                .flatMap(optionalClient -> {
-                    if (optionalClient.isPresent()) {
-                        return response;
-                    } else {
-                        throw new BadRequestException("The client doesn't exists");
-                    }
-                });
-    }
-
     /**
      * {@code PUT  /bank-accounts/:id} : Updates an existing bankAccount.
      *
@@ -142,12 +131,17 @@ public class BankAccountResource {
     /**
      * {@code GET  /bank-accounts} : get all the bankAccounts.
      *
+     * @param client the id of the client (optional).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
      */
     @GetMapping("")
-    public Flux<BankAccountDTO> getAllBankAccounts() {
+    public Flux<BankAccountDTO> getAllBankAccounts(@RequestParam(required = false) Long client) {
         log.debug("REST request to get all BankAccounts");
-        return Mono.fromCallable(bankAccountService::findAll).flatMapMany(Flux::fromIterable);
+        if (client != null) {
+            return Flux.fromIterable(bankAccountService.findAllByClient(client));
+        } else {
+            return Flux.fromIterable(bankAccountService.findAll());
+        }
     }
 
     /**

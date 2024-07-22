@@ -59,5 +59,6 @@ public interface BankAccountService {
      */
     void delete(Long id);
 
+    List<BankAccountDTO> findAllByClient(Long client);
     BankAccount updateBalance(Long accountNumber, BigDecimal amount) throws InsufficientBalanceException;
 }
