@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY target/bank-account-service.jar bank-account-service.jar
+COPY target/bank-account-service-0.0.1.jar bank-account-service.jar
 
 EXPOSE 8082
 

@@ -12,18 +12,15 @@ import java.util.Optional;
 @Component
 public class BankClientService {
 
-    private static final String CLIENT_URL = "http://localhost:8081/client/api/clients/{id}"; // TODO envars, log!!
+    private static final String CLIENTS_API = "/api/clients/{id}";
 
     @Autowired
     private WebClient.Builder client;
 
     public Mono<Optional<ClientDTO>> getClientById(Long id) {
-        /*final ClientDTO dto = new ClientDTO();
-        dto.setId(id);
-        return Mono.just(Optional.of(dto));*/
         return client.build()
                 .get()
-                .uri(CLIENT_URL, id)
+                .uri(CLIENTS_API, id)
                 .retrieve()
                 .bodyToMono(ClientDTO.class)
                 .map(Optional::of)

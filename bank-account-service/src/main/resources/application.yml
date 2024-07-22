@@ -1,12 +1,10 @@
 server:
-  servlet:
-    context-path: /account
+  port: 8082
 
 spring:
   profiles:
     active: dev
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5433/bank-account
     username: user
     password: password

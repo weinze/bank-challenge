@@ -1,7 +1,3 @@
-server:
-  servlet:
-    context-path: /account
-
 spring:
   profiles:
     active: test

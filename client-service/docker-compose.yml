@@ -1,0 +1,30 @@
+services:
+  bank-client-db:
+    image: postgres:latest
+    container_name: bank_client_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bank_client_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - bank_client_db_data:/var/lib/postgresql/data
+
+  bank-client-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bank-client-db:5432/bank_client_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - bank-client-db
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
+
+volumes:
+  bank_client_db_data:

@@ -1,0 +1,75 @@
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - bank-client-service
+      - bank-account-service
+    networks:
+      - app-network
+
+  bank-client-service:
+    build:
+      context: ./client-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bank-client-db:5432/bank_client_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+
+  bank-account-service:
+    build:
+      context: ./bank-account-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bank-account-db:5432/bank_account_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      CLIENT_SERVICE_URL: http://bank-client-service:8081
+    ports:
+      - "8082:8082"
+    networks:
+      - app-network
+
+  bank-client-db:
+    image: postgres:latest
+    container_name: bank_client_db_main
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bank_client_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_client_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  bank-account-db:
+    image: postgres:latest
+    container_name: bank_account_db_main
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bank_account_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_account_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres_client_data:
+  postgres_account_data:
+
