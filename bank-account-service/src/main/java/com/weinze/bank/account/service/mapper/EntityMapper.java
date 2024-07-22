@@ -1,10 +1,11 @@
-package com.weinze.jhipster.test2.service.mapper;
+package com.weinze.bank.account.service.mapper;
 
-import java.util.List;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+
+import java.util.List;
 
 /**
  * Contract for a generic dto to entity mapper.

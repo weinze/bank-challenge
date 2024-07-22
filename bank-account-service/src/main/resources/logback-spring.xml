@@ -6,7 +6,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
-    <logger name="com.weinze.bank.client" level="DEBUG"/>
+    <logger name="com.weinze.bank.account" level="DEBUG"/>
 
     <springProperty name="log.level" source="logging.level.root" defaultValue="INFO" />
     <root level="${log.level}">

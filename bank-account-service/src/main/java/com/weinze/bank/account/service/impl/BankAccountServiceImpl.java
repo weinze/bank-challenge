@@ -1,22 +1,22 @@
-package com.weinze.jhipster.test2.service.impl;
+package com.weinze.bank.account.service.impl;
 
-import com.weinze.jhipster.test2.domain.BankAccount;
-import com.weinze.jhipster.test2.repository.BankAccountRepository;
-import com.weinze.jhipster.test2.service.BankAccountService;
-import com.weinze.jhipster.test2.service.dto.BankAccountDTO;
-import com.weinze.jhipster.test2.service.mapper.BankAccountMapper;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.weinze.bank.account.domain.BankAccount;
+import com.weinze.bank.account.repository.BankAccountRepository;
+import com.weinze.bank.account.service.BankAccountService;
+import com.weinze.bank.account.service.dto.BankAccountDTO;
+import com.weinze.bank.account.service.errors.InsufficientBalanceException;
+import com.weinze.bank.account.service.mapper.BankAccountMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Service Implementation for managing {@link com.weinze.jhipster.test2.domain.BankAccount}.
- */
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class BankAccountServiceImpl implements BankAccountService {
@@ -53,14 +53,14 @@ public class BankAccountServiceImpl implements BankAccountService {
         log.debug("Request to partially update BankAccount : {}", bankAccountDTO);
 
         return bankAccountRepository
-            .findById(bankAccountDTO.getId())
-            .map(existingBankAccount -> {
-                bankAccountMapper.partialUpdate(existingBankAccount, bankAccountDTO);
+                .findById(bankAccountDTO.getId())
+                .map(existingBankAccount -> {
+                    bankAccountMapper.partialUpdate(existingBankAccount, bankAccountDTO);
 
-                return existingBankAccount;
-            })
-            .map(bankAccountRepository::save)
-            .map(bankAccountMapper::toDto);
+                    return existingBankAccount;
+                })
+                .map(bankAccountRepository::save)
+                .map(bankAccountMapper::toDto);
     }
 
     @Override
@@ -81,5 +81,19 @@ public class BankAccountServiceImpl implements BankAccountService {
     public void delete(Long id) {
         log.debug("Request to delete BankAccount : {}", id);
         bankAccountRepository.deleteById(id);
+    }
+
+    public BankAccount updateBalance(Long accountNumber, BigDecimal amount) throws InsufficientBalanceException {
+        return bankAccountRepository.findByNumber(accountNumber).map(bankAccount -> {
+
+            final BigDecimal result = bankAccount.getCurrentBalance().add(amount);
+            if (result.compareTo(BigDecimal.ZERO) < 0) {
+                throw new InsufficientBalanceException(
+                        bankAccount.getNumber(), bankAccount.getCurrentBalance(), amount
+                );
+            }
+
+            return bankAccount.currentBalance(result);
+        }).orElseThrow(() -> new RuntimeException("Invalid account"));
     }
 }

@@ -1,21 +1,24 @@
-package com.weinze.jhipster.test2.service.impl;
+package com.weinze.bank.account.service.impl;
 
-import com.weinze.jhipster.test2.domain.Transaction;
-import com.weinze.jhipster.test2.repository.TransactionRepository;
-import com.weinze.jhipster.test2.service.TransactionService;
-import com.weinze.jhipster.test2.service.dto.TransactionDTO;
-import com.weinze.jhipster.test2.service.mapper.TransactionMapper;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.weinze.bank.account.domain.BankAccount;
+import com.weinze.bank.account.domain.Transaction;
+import com.weinze.bank.account.repository.TransactionRepository;
+import com.weinze.bank.account.service.BankAccountService;
+import com.weinze.bank.account.service.TransactionService;
+import com.weinze.bank.account.service.dto.TransactionDTO;
+import com.weinze.bank.account.service.mapper.TransactionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 /**
- * Service Implementation for managing {@link com.weinze.jhipster.test2.domain.Transaction}.
+ * Service Implementation for managing {@link com.weinze.bank.account.domain.Transaction}.
  */
 @Service
 @Transactional
@@ -27,17 +30,24 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionMapper transactionMapper;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
+    private final BankAccountService bankAccountService;
+
+    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionMapper transactionMapper, BankAccountService bankAccountService) {
         this.transactionRepository = transactionRepository;
         this.transactionMapper = transactionMapper;
+        this.bankAccountService = bankAccountService;
     }
 
     @Override
     public TransactionDTO save(TransactionDTO transactionDTO) {
         log.debug("Request to save Transaction : {}", transactionDTO);
-        Transaction transaction = transactionMapper.toEntity(transactionDTO);
-        transaction = transactionRepository.save(transaction);
-        return transactionMapper.toDto(transaction);
+        final BankAccount account = bankAccountService.updateBalance(transactionDTO.getAccountNumber(), transactionDTO.getAmount());
+
+        final Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        transaction.setAccount(account);
+        transaction.balance(account.getCurrentBalance());
+
+        return transactionMapper.toDto(transactionRepository.save(transaction));
     }
 
     @Override

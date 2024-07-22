@@ -1,21 +1,17 @@
-package com.weinze.jhipster.test2.service.mapper;
+package com.weinze.bank.account.service.mapper;
 
-import com.weinze.jhipster.test2.domain.BankAccount;
-import com.weinze.jhipster.test2.domain.Transaction;
-import com.weinze.jhipster.test2.service.dto.BankAccountDTO;
-import com.weinze.jhipster.test2.service.dto.TransactionDTO;
-import org.mapstruct.*;
+import com.weinze.bank.account.domain.Transaction;
+import com.weinze.bank.account.service.dto.TransactionDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-/**
- * Mapper for the entity {@link Transaction} and its DTO {@link TransactionDTO}.
- */
 @Mapper(componentModel = "spring")
 public interface TransactionMapper extends EntityMapper<TransactionDTO, Transaction> {
-    @Mapping(target = "account", source = "account", qualifiedByName = "bankAccountId")
+
+    @Mapping(target = "accountNumber", source = "account.number")
     TransactionDTO toDto(Transaction s);
 
-    @Named("bankAccountId")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    BankAccountDTO toDtoBankAccountId(BankAccount bankAccount);
+    @Mapping(target = "account.number", source = "accountNumber")
+    Transaction toEntity(TransactionDTO dto);
+
 }

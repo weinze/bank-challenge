@@ -1,13 +1,18 @@
-package com.weinze.jhipster.test2.service;
+package com.weinze.bank.account.service;
 
-import com.weinze.jhipster.test2.service.dto.BankAccountDTO;
+import com.weinze.bank.account.domain.BankAccount;
+import com.weinze.bank.account.service.dto.BankAccountDTO;
+import com.weinze.bank.account.service.errors.InsufficientBalanceException;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.weinze.jhipster.test2.domain.BankAccount}.
+ * Service Interface for managing {@link com.weinze.bank.account.domain.BankAccount}.
  */
 public interface BankAccountService {
+
     /**
      * Save a bankAccount.
      *
@@ -53,4 +58,6 @@ public interface BankAccountService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    BankAccount updateBalance(Long accountNumber, BigDecimal amount) throws InsufficientBalanceException;
 }

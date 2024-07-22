@@ -1,27 +1,21 @@
-package com.weinze.jhipster.test2.domain;
+package com.weinze.bank.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.weinze.jhipster.test2.domain.enumeration.AccountType;
+import com.weinze.bank.account.domain.enums.AccountType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A BankAccount.
- */
 @Entity
 @Table(name = "bank_account")
-@SuppressWarnings("common-java:DuplicatedBlocks")
 public class BankAccount implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
 
@@ -46,15 +40,13 @@ public class BankAccount implements Serializable {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "client_id") TODO
-    private Client client;
+    @NotNull
+    @Column(name = "client", nullable = false)
+    private Long client;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
     @JsonIgnoreProperties(value = { "account" }, allowSetters = true)
     private Set<Transaction> transactions = new HashSet<>();
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -134,15 +126,15 @@ public class BankAccount implements Serializable {
         this.enabled = enabled;
     }
 
-    public Client getClient() {
+    public Long getClient() {
         return this.client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(Long client) {
         this.client = client;
     }
 
-    public BankAccount client(Client client) {
+    public BankAccount client(Long client) {
         this.setClient(client);
         return this;
     }
@@ -178,35 +170,4 @@ public class BankAccount implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof BankAccount)) {
-            return false;
-        }
-        return getId() != null && getId().equals(((BankAccount) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "BankAccount{" +
-            "id=" + getId() +
-            ", number=" + getNumber() +
-            ", type='" + getType() + "'" +
-            ", initialBalance=" + getInitialBalance() +
-            ", currentBalance=" + getCurrentBalance() +
-            ", enabled='" + getEnabled() + "'" +
-            "}";
-    }
 }

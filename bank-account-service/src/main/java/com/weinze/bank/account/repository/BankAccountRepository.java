@@ -1,12 +1,14 @@
-package com.weinze.jhipster.test2.repository;
+package com.weinze.bank.account.repository;
 
-import com.weinze.jhipster.test2.domain.BankAccount;
-import org.springframework.data.jpa.repository.*;
+import com.weinze.bank.account.domain.BankAccount;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * Spring Data JPA repository for the BankAccount entity.
- */
-@SuppressWarnings("unused")
+import java.util.Optional;
+
 @Repository
-public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {}
+public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
+
+    Optional<BankAccount> findByNumber(Long number);
+
+}

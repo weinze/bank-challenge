@@ -1,15 +1,11 @@
-package com.weinze.jhipster.test2.service.dto;
+package com.weinze.bank.account.service.dto;
 
-import com.weinze.jhipster.test2.domain.enumeration.AccountType;
-import jakarta.validation.constraints.*;
+import com.weinze.bank.account.domain.enums.AccountType;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
-/**
- * A DTO for the {@link com.weinze.jhipster.test2.domain.BankAccount} entity.
- */
-@SuppressWarnings("common-java:DuplicatedBlocks")
 public class BankAccountDTO implements Serializable {
 
     private Long id;
@@ -29,7 +25,8 @@ public class BankAccountDTO implements Serializable {
     @NotNull
     private Boolean enabled;
 
-    private ClientDTO client;
+    @NotNull
+    private Long client;
 
     public Long getId() {
         return id;
@@ -79,46 +76,24 @@ public class BankAccountDTO implements Serializable {
         this.enabled = enabled;
     }
 
-    public ClientDTO getClient() {
+    public Long getClient() {
         return client;
     }
 
-    public void setClient(ClientDTO client) {
+    public void setClient(Long client) {
         this.client = client;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof BankAccountDTO)) {
-            return false;
-        }
-
-        BankAccountDTO bankAccountDTO = (BankAccountDTO) o;
-        if (this.id == null) {
-            return false;
-        }
-        return Objects.equals(this.id, bankAccountDTO.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.id);
-    }
-
-    // prettier-ignore
-    @Override
     public String toString() {
         return "BankAccountDTO{" +
-            "id=" + getId() +
-            ", number=" + getNumber() +
-            ", type='" + getType() + "'" +
-            ", initialBalance=" + getInitialBalance() +
-            ", currentBalance=" + getCurrentBalance() +
-            ", enabled='" + getEnabled() + "'" +
-            ", client=" + getClient() +
-            "}";
+                "id=" + id +
+                ", number=" + number +
+                ", type=" + type +
+                ", initialBalance=" + initialBalance +
+                ", currentBalance=" + currentBalance +
+                ", enabled=" + enabled +
+                ", client=" + client +
+                '}';
     }
 }

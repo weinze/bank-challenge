@@ -1,8 +1,5 @@
-package com.weinze.jhipster.test2.domain.enumeration;
+package com.weinze.bank.account.domain.enums;
 
-/**
- * The AccountType enumeration.
- */
 public enum AccountType {
     CA,
     CC,

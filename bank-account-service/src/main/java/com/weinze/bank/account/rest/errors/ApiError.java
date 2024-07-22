@@ -1,33 +1,31 @@
-package com.weinze.bank.client.rest.errors;
-
-import org.springframework.http.HttpStatus;
+package com.weinze.bank.account.rest.errors;
 
 import java.io.Serializable;
 import java.time.Instant;
 
 public class ApiError implements Serializable {
 
-    private HttpStatus code;
+    private int code;
     private String message;
     private Instant timestamp;
 
-    public ApiError(HttpStatus code, String message) {
+    public ApiError(int code, String message) {
         this.code = code;
         this.message = message;
         this.timestamp = Instant.now();
     }
 
-    public ApiError(HttpStatus code, String message, Instant timestamp) {
+    public ApiError(int code, String message, Instant timestamp) {
         this.code = code;
         this.message = message;
         this.timestamp = timestamp;
     }
 
-    public HttpStatus getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(HttpStatus code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

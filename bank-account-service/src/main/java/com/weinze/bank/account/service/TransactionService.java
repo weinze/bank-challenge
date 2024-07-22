@@ -1,13 +1,15 @@
-package com.weinze.jhipster.test2.service;
+package com.weinze.bank.account.service;
 
-import com.weinze.jhipster.test2.service.dto.TransactionDTO;
+import com.weinze.bank.account.service.dto.TransactionDTO;
+
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.weinze.jhipster.test2.domain.Transaction}.
+ * Service Interface for managing {@link com.weinze.bank.account.domain.Transaction}.
  */
 public interface TransactionService {
+
     /**
      * Save a transaction.
      *
